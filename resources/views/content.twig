@@ -1,0 +1,16 @@
+{% if block.items is not empty %}
+    <dl>
+        {% for item in block.items %}
+            <dt>
+                <a href="{{ item.get_permalink() }}" target="_blank">
+                    {{ item.get_title() }}
+                </a>
+            </dt>
+            {% if item.enable_descriptions.isTrue() %}
+                <dd>
+                    {{ item.get_description()|striptags }}
+                </dd>
+            {% endif %}
+        {% endfor %}
+    </dl>
+{% endif %}
