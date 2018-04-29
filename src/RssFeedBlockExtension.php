@@ -4,7 +4,6 @@ use Anomaly\BlocksModule\Block\BlockExtension;
 use Anomaly\BlocksModule\Block\Contract\BlockInterface;
 use Anomaly\RssFeedBlockExtension\Command\FetchCurlContent;
 use Anomaly\RssFeedBlockExtension\Command\FetchRawContent;
-use Illuminate\Contracts\Cache\Repository;
 
 /**
  * Class RssFeedBlockExtension
@@ -35,12 +34,11 @@ class RssFeedBlockExtension extends BlockExtension
      * Fired just before rendering.
      *
      * @param BlockInterface $block
-     * @param Repository     $cache
      * @param \SimplePie     $rss
      */
-    public function onLoad(BlockInterface $block, Repository $cache, \SimplePie $rss)
+    public function onLoad(BlockInterface $block, \SimplePie $rss)
     {
-        $items = $cache->remember(
+        $items = $block->cache(
             __METHOD__ . '_' . $block->getId(),
             30,
             function () use ($rss, $block) {
